@@ -1,0 +1,27 @@
+services:
+  mail-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mail-api
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8082}:${PORT:-8082}"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - PORT=${PORT:-8082}
+      - API_KEY=${API_KEY}
+      - SMTP_HOST=${SMTP_HOST:-smtp.mail.me.com}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER:-mhmdandri03@icloud.com}
+      - SMTP_PASS=${SMTP_PASS}
+      - FROM_EMAIL=${FROM_EMAIL:-no-reply@weddingofandricica.me}
+      - FROM_NAME=${FROM_NAME:-Andri & Cica}
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:${PORT:-8082}/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s

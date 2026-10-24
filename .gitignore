@@ -1,0 +1,26 @@
+# Environment files
+.env
+*.env.local
+
+# Binaries
+mail-api
+mail-api.exe
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, generated with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
