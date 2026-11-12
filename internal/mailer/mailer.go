@@ -32,7 +32,7 @@ func New(cfg *config.Config) *Mailer {
 }
 
 // Send sends an email with optional text and/or HTML parts.
-func (m *Mailer) Send(to, subject, text, html string) error {
+func (m *Mailer) Send(to, subject, text, html string, attachments []string) error {
 	msg := gomail.NewMessage()
 
 	// Format Sender / From header: "From Name" <from@domain.com>
@@ -57,6 +57,11 @@ func (m *Mailer) Send(to, subject, text, html string) error {
 		msg.SetBody("text/plain", text)
 	default:
 		return fmt.Errorf("pesan email harus memiliki setidaknya konten 'text' atau 'html'")
+	}
+
+	// Add attachments
+	for _, file := range attachments {
+		msg.Attach(file)
 	}
 
 	if err := m.dialer.DialAndSend(msg); err != nil {

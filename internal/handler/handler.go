@@ -16,10 +16,11 @@ import (
 )
 
 type SendEmailRequest struct {
-	To      string `json:"to"`
-	Subject string `json:"subject"`
-	Text    string `json:"text,omitempty"`
-	HTML    string `json:"html,omitempty"`
+	To          string   `json:"to"`
+	Subject     string   `json:"subject"`
+	Text        string   `json:"text,omitempty"`
+	HTML        string   `json:"html,omitempty"`
+	Attachments []string `json:"attachments,omitempty"`
 }
 
 type Response struct {
@@ -154,7 +155,7 @@ func (h *Handler) SendEmail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 3. Send email via SMTP
-	err := h.mailer.Send(req.To, req.Subject, req.Text, req.HTML)
+	err := h.mailer.Send(req.To, req.Subject, req.Text, req.HTML, req.Attachments)
 	duration := time.Since(start)
 
 	if err != nil {
